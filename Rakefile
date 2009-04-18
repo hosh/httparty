@@ -6,15 +6,13 @@ require 'rake'
 require 'echoe'
 require 'spec/rake/spectask'
 require "lib/#{ProjectName}/version"
-require 'cucumber/rake/task'
 
 Echoe.new(ProjectName, HTTParty::Version) do |p|
-  p.description     = "Makes http fun! Also, makes consuming restful web services dead easy."
-  p.install_message = "When you HTTParty, you must party hard!"
+  p.description     = "Makes http fun! Also, makes consuming restful web services dead easy. (Forked version using Merb/JSON gems)"
   p.url             = "http://#{ProjectName}.rubyforge.org"
   p.author          = "John Nunemaker"
   p.email           = "nunemaker@gmail.com"
-  p.extra_deps      = [['crack', '>= 0.1.1']]
+  p.extra_deps      = [['json', '>= 1.1.4']]
   p.need_tar_gz     = false
   p.docs_host       = WebsitePath
 end
@@ -43,6 +41,3 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList["spec/**/*_spec.rb"]
 end
 
-Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = "--format pretty" 
-end

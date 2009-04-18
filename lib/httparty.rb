@@ -4,6 +4,7 @@ require 'net/http'
 require 'net/https'
 require 'httparty/module_inheritable_attributes'
 require 'rubygems'
+require 'json'
 
 module HTTParty
   

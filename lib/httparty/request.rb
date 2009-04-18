@@ -59,7 +59,7 @@ module HTTParty
           @raw_request.set_form_data(options[:query])
         end
         
-        @raw_request.body = options[:body].is_a?(Hash) ? options[:body].to_params : options[:body] unless options[:body].blank?
+        @raw_request.body = options[:body].is_a?(Hash) ? options[:body].to_params : options[:body] unless options[:body] || options[:body] == ''
         @raw_request.initialize_http_header options[:headers]
         
         configure_basic_auth if options[:basic_auth]
@@ -77,13 +77,13 @@ module HTTParty
       
       def query_string(uri)
         query_string_parts = []
-        query_string_parts << uri.query unless uri.query.blank?
+        query_string_parts << uri.query unless uri.query || uri.query == ''
 
         if options[:query].is_a?(Hash)
           query_string_parts << options[:default_params].merge(options[:query]).to_params
         else
-          query_string_parts << options[:default_params].to_params unless options[:default_params].blank?
-          query_string_parts << options[:query] unless options[:query].blank?
+          query_string_parts << options[:default_params].to_params unless options[:default_params] || options[:default_params] == ''
+          query_string_parts << options[:query] unless options[:query] || options[:query] == ''
         end
         
         query_string_parts.size > 0 ? query_string_parts.join('&') : nil
