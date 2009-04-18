@@ -86,7 +86,7 @@ module HTTParty
           query_string_parts << options[:query] unless options[:query] || options[:query] == ''
         end
         
-        query_string_parts.size > 0 ? query_string_parts.join('&') : nil
+        query_string_parts.size > 0 ? URI.encode(query_string_parts.join('&')) : nil
       end
       
       # Raises exception Net::XXX (http error code) if an http error occured
