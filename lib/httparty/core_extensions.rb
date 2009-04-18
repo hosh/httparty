@@ -23,3 +23,39 @@ module REXML #:nodoc:
     end
   end
 end
+
+# Inject Hash#to_params unless it is already defined (Usually by Merb)
+unless defined?(Hash.new.to_params)
+  class Hash
+    def to_params
+      params = self.map { |k,v| normalize_param(k,v) }.join
+      params.chop! # trailing &
+      params
+    end
+   
+    def normalize_param(key, value)
+      param = ''
+      stack = []
+   
+      if value.is_a?(Array)
+        param << value.map { |element| normalize_param("#{key}[]", element) }.join
+      elsif value.is_a?(Hash)
+        stack << [key,value]
+      else
+        param << "#{key}=#{value}&"
+      end
+   
+      stack.each do |parent, hash|
+        hash.each do |k, v|
+          if v.is_a?(Hash)
+            stack << ["#{parent}[#{k}]", v]
+          else
+            param << normalize_param("#{parent}[#{k}]", v)
+          end
+        end
+      end
+   
+      param
+    end
+  end
+end
