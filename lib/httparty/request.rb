@@ -110,7 +110,7 @@ module HTTParty
             #Crack::XML.parse(body)
             throw "XML not supported"
           when :json
-            JSON.parse(body)
+            ::JSON.parse(body)
           when :yaml
             #YAML::load(body)
             throw "YAML not supported"
