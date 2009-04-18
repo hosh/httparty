@@ -107,11 +107,13 @@ module HTTParty
         return nil if body.nil? or body.empty?
         case format
           when :xml
-            Crack::XML.parse(body)
+            #Crack::XML.parse(body)
+            throw "XML not supported"
           when :json
-            Crack::JSON.parse(body)
+            JSON.parse(body)
           when :yaml
-            YAML::load(body)
+            #YAML::load(body)
+            throw "YAML not supported"
           else
             body
           end
